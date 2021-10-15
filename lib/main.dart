@@ -1,0 +1,65 @@
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:udemy_flutter/layout/news_app/cubit/cubit.dart';
+import 'package:udemy_flutter/layout/news_app/news_layout.dart';
+import 'package:udemy_flutter/layout/todo_app/todo_layout.dart';
+import 'package:udemy_flutter/modules/shop_app/on_bording/onbording_screen.dart';
+import 'package:udemy_flutter/shared/bloc_observer.dart';
+import 'package:udemy_flutter/shared/cubit/cubit.dart';
+import 'package:udemy_flutter/shared/cubit/states.dart';
+import 'package:udemy_flutter/shared/network/local/cashe_helper.dart';
+import 'package:udemy_flutter/shared/network/remote/dio_helper.dart';
+import 'package:udemy_flutter/shared/styles/themes.dart';
+
+void main() async {
+  //بيتاكد ان كل حاجه هنا ف الميثود خلصت وبعدين يرن الاب
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  DioHelper.init();
+  await CasheHelper.init();
+  bool isDark = CasheHelper.getBoolean(key: 'isDark');
+
+  runApp(MyApp(isDark));
+}
+
+class MyApp extends StatelessWidget {
+  final bool isDark;
+  MyApp(this.isDark);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NewsCubit()
+            ..businessData()
+            ..scienceData()
+            ..sportsData(),
+        ),
+        BlocProvider(
+          create: (context) => AppCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            ),
+        ),
+      ],
+      child: BlocConsumer<AppCubit, AppStates>(
+        listener: (BuildContext context, state) {},
+        builder: (BuildContext context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode:
+                AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+            home: OnBoardingScreen(),
+            title: 'Enjoy Test',
+          );
+        },
+      ),
+    );
+  }
+}
