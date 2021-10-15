@@ -58,7 +58,7 @@ class NewsCubit extends Cubit<NewsStates> {
         'country': 'eg',
         'category': 'business',
         'apiKey': '7db2b261d772400ba9ade18d100454fc',
-      },
+      }, data: {},
     ).then((value) {
       business = value.data['articles'];
       print(business[0]['title']);
@@ -80,7 +80,7 @@ class NewsCubit extends Cubit<NewsStates> {
           'country': 'eg',
           'category': 'sports',
           'apiKey': '7db2b261d772400ba9ade18d100454fc',
-        },
+        }, data: {},
       ).then((value) {
         sports = value.data['articles'];
         print(sports[0]['title']);
@@ -105,7 +105,7 @@ class NewsCubit extends Cubit<NewsStates> {
           'country': 'eg',
           'category': 'science',
           'apiKey': '7db2b261d772400ba9ade18d100454fc',
-        },
+        }, data: {},
       ).then((value) {
         science = value.data['articles'];
         print(science[0]['title']);
@@ -128,7 +128,7 @@ class NewsCubit extends Cubit<NewsStates> {
       query: {
         'q': '$value',
         'apiKey': '7db2b261d772400ba9ade18d100454fc',
-      },
+      }, data: {},
     ).then((value) {
       search = value.data['articles'];
       print(search[0]['title']);
