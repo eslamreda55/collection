@@ -6,7 +6,7 @@ class ShopRegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Eslam Market"),
+        title: Text("Eslam"),
       ),
     );
   }
