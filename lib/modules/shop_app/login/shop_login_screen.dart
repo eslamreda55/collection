@@ -2,6 +2,8 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:udemy_flutter/models/user/shop_app/login_model.dart';
 import 'package:udemy_flutter/modules/shop_app/login/cuibt/cubit.dart';
 import 'package:udemy_flutter/modules/shop_app/login/cuibt/states.dart';
 import 'package:udemy_flutter/modules/shop_app/register/shop_register_screen.dart';
@@ -21,7 +23,31 @@ class ShoLoginScreen extends StatelessWidget {
       create:(BuildContext context)=>ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit,ShopLoginStates>
       ( 
-        listener: (context,state){},
+        listener: (context,state)
+        {
+          if(state is ShopLoginSuccessStates)
+          {
+            if(state.loginModel.status)
+            {
+              print(state.loginModel.message);
+              print(state.loginModel.data.token);
+
+            }else
+            {
+              print(state.loginModel.message);
+
+              Fluttertoast.showToast(
+                msg: state.loginModel.message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 4,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+              );
+            }
+          }
+        },
         builder:(context , state){
         return Scaffold(
             appBar: AppBar(),
@@ -74,9 +100,23 @@ class ShoLoginScreen extends StatelessWidget {
                                 return 'password is too short';
                               }
                             },
+                            isPassword: ShopLoginCubit.get(context).isPassword,
+                            onsubmited: (value)
+                            {
+                              if(formKey.currentState.validate())
+                                  {
+                                  ShopLoginCubit.get(context).userLogin(
+                                    email: emailController.text,
+                                     password: passwordController.text,
+                                     );
+                                  }
+                            },
                             prefixIcon: Icons.lock_open,
-                            sufix: Icons.remove_red_eye_rounded,
-                            sufixOnPressed:(){} ,
+                            sufix:ShopLoginCubit.get(context).suffix,
+                            sufixOnPressed:()
+                            {
+                              ShopLoginCubit.get(context).changeSuffixPassword();
+                            } ,
                             label: 'Password',
                               ),
                               SizedBox(

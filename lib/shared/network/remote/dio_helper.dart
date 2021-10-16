@@ -26,14 +26,14 @@ class DioHelper {
     String token,
     }) async {
 
-       dio.options=BaseOptions(
-        headers:
-        {
+        dio.options.headers=
+      {
+        
           'lang':lang,
           'Authorization':token,
 
-        },
-      );
+        
+      };
 
     return await dio.get(
       url,
@@ -49,15 +49,14 @@ class DioHelper {
     String token,
     }) async {
 
-      dio.options=BaseOptions(
-        headers:
-        {
+      dio.options.headers=
+      {
+        
           'lang':lang,
           'Authorization':token,
 
-        },
-
-      );
+        
+      };
     return await dio.post(
       url,
       queryParameters: query,
