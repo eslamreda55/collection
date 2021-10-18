@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:udemy_flutter/modules/shop_app/login/shop_login_screen.dart';
 import 'package:udemy_flutter/shared/components/components.dart';
+import 'package:udemy_flutter/shared/network/local/cashe_helper.dart';
 import 'package:udemy_flutter/shared/styles/colors.dart';
 
 class BoardingModel
@@ -45,6 +46,21 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       )
   ];
 
+  void submit()
+  {
+    CasheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+      if(value)
+    {
+      navigateAndFinish(context, ShopLoginScreen(),);
+    }
+    } );
+
+    
+
+    
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +68,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: 
         [
           defaultTextButton(
-            onPressed:()
-            {
-               navigateAndFinish(context, ShoLoginScreen(),);
-            },
+            onPressed: submit ,
              text: 'SKIP',
              ),
         ],
@@ -113,7 +126,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   {
                     if(isLast)
                     {
-                      navigateAndFinish(context, ShoLoginScreen(),);
+                      submit();
                     }else
                     {
                        boardController.nextPage(

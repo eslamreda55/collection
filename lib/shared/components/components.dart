@@ -1,6 +1,7 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:udemy_flutter/layout/news_app/cubit/cubit.dart';
 import 'package:udemy_flutter/layout/news_app/cubit/states.dart';
 import 'package:udemy_flutter/modules/news_app/webview_screen/webview_screen.dart';
@@ -9,7 +10,7 @@ import 'package:udemy_flutter/shared/styles/colors.dart';
 
 Widget defaultButton({
   double width = double.infinity,
-  Color background = Colors.blue,
+  Color background = defaultColor,
   @required Function onPressed,
   @required String text,
   bool isUpperCase = false,
@@ -47,6 +48,44 @@ Widget defaultTextButton({
           // ),
   );
 
+  void showToast({
+      @required String text,
+      @required toastState state,
+      
+    })=>
+     Fluttertoast.showToast(
+      msg:text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 4,
+      backgroundColor: chooseToastColor(state) ,
+      textColor: Colors.white,
+      fontSize: 16.0
+      );
+
+  enum toastState{SUCCESS,ERROR,WARNING}
+
+  
+  Color chooseToastColor(toastState state)
+  {
+    Color color;
+
+    switch(state)
+    {
+      case toastState.SUCCESS:
+      color= Colors.green;
+      break;
+      case toastState.ERROR:
+        color= Colors.red;
+        break;
+      case toastState.WARNING:
+        color= Colors.yellowAccent;
+        break;
+    }
+    return color;
+
+  }
+      
 Widget defaultFormField({
   @required TextEditingController controller,
   @required TextInputType type,

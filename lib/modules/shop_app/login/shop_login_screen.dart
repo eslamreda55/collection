@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:udemy_flutter/layout/shop_app/shop_layout.dart';
 import 'package:udemy_flutter/models/user/shop_app/login_model.dart';
 import 'package:udemy_flutter/modules/shop_app/login/cuibt/cubit.dart';
 import 'package:udemy_flutter/modules/shop_app/login/cuibt/states.dart';
 import 'package:udemy_flutter/modules/shop_app/register/shop_register_screen.dart';
 import 'package:udemy_flutter/shared/components/components.dart';
+import 'package:udemy_flutter/shared/network/local/cashe_helper.dart';
 import 'package:udemy_flutter/shared/styles/colors.dart';
 
-// ignore: must_be_immutable
-class ShoLoginScreen extends StatelessWidget {
+
+class ShopLoginScreen extends StatelessWidget {
 
   var emailController=TextEditingController();
   var passwordController=TextEditingController();
@@ -31,19 +33,24 @@ class ShoLoginScreen extends StatelessWidget {
             {
               print(state.loginModel.message);
               print(state.loginModel.data.token);
+              showToast(
+              text: state.loginModel.message,
+              state: toastState.SUCCESS,
+              );
+
+              CasheHelper.saveData(
+                key: 'token',
+                 value: state.loginModel.data.token).then((value) {
+                   navigateAndFinish(context, ShopLayout(),);
+                 });
 
             }else
             {
               print(state.loginModel.message);
 
-              Fluttertoast.showToast(
-                msg: state.loginModel.message,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 4,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0
+              showToast(
+              text: state.loginModel.message,
+              state: toastState.ERROR,
               );
             }
           }
@@ -92,32 +99,32 @@ class ShoLoginScreen extends StatelessWidget {
                                 height: 20.0,
                               ),
                               defaultFormField(
-                          controller: passwordController,
-                          type: TextInputType.visiblePassword,
-                            validate: (String value)
-                            {
-                              if(value.isEmpty){
-                                return 'password is too short';
-                              }
-                            },
-                            isPassword: ShopLoginCubit.get(context).isPassword,
-                            onsubmited: (value)
-                            {
-                              if(formKey.currentState.validate())
+                                controller: passwordController,
+                                type: TextInputType.visiblePassword,
+                                  validate: (String value)
                                   {
-                                  ShopLoginCubit.get(context).userLogin(
-                                    email: emailController.text,
-                                     password: passwordController.text,
-                                     );
-                                  }
-                            },
-                            prefixIcon: Icons.lock_open,
-                            sufix:ShopLoginCubit.get(context).suffix,
-                            sufixOnPressed:()
-                            {
-                              ShopLoginCubit.get(context).changeSuffixPassword();
-                            } ,
-                            label: 'Password',
+                                    if(value.isEmpty){
+                                      return 'password is too short';
+                                    }
+                                  },
+                                isPassword: ShopLoginCubit.get(context).isPassword,
+                                onsubmited: (value)
+                                {
+                                  if(formKey.currentState.validate())
+                                      {
+                                      ShopLoginCubit.get(context).userLogin(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        );
+                                      }
+                                },
+                                prefixIcon: Icons.lock_open,
+                                sufix:ShopLoginCubit.get(context).suffix,
+                                sufixOnPressed:()
+                                {
+                                  ShopLoginCubit.get(context).changeSuffixPassword();
+                                } ,
+                                label: 'Password',
                               ),
                               SizedBox(
                                 height: 30.0,
@@ -137,7 +144,6 @@ class ShoLoginScreen extends StatelessWidget {
                                 },
                                 text: 'LOGIN',
                                 isUpperCase: true,
-                                background: defaultColor,
                                 ),
                                fallback: (context)=>Center(child: CircularProgressIndicator()),
                                ),
