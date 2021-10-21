@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:udemy_flutter/layout/news_app/cubit/cubit.dart';
 import 'package:udemy_flutter/layout/news_app/news_layout.dart';
+import 'package:udemy_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:udemy_flutter/layout/shop_app/shop_layout.dart';
 import 'package:udemy_flutter/layout/todo_app/todo_layout.dart';
 import 'package:udemy_flutter/modules/basics/login/login_screen.dart';
@@ -71,6 +72,10 @@ class MyApp extends StatelessWidget {
             ..changeAppMode(
               fromShared: isDark,
             ),
+        ),
+        BlocProvider(
+          create: (context) => ShopCubit()..getHomeData(),
+            
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
