@@ -9,11 +9,15 @@ class ShopLoadingHomeDataState extends ShopStates{}
 class ShopSuccessHomeDataState extends ShopStates{}
 
 class ShopErrorHomeDataState extends ShopStates{
-  final String error;
+  // final String error;
 
-  ShopErrorHomeDataState(this.error);
+  // ShopErrorHomeDataState(this.error);
 
 }
+
+class ShopSuccessCategoriesDataState extends ShopStates{}
+
+class ShopErrorCategoriesDataState extends ShopStates{}
 
 
 

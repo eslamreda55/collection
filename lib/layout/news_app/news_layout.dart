@@ -36,7 +36,7 @@ class NewsScreen extends StatelessWidget {
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: cubit.currentIndex,
-            items: cubit.BtItems,
+            items: cubit.btItems,
             onTap: (index) {
               cubit.changeBtNavBarItems(index);
             },

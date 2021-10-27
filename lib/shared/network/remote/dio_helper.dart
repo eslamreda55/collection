@@ -7,14 +7,13 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://student.valuxapps.com/api/',
-        
-        
+        baseUrl: 'https://student.valuxapps.com/api/', 
         receiveDataWhenStatusError: true,
       ),
     );
   }
 
+  
   static Future<Response> getData({
     @required String url,
     Map<String, dynamic> query,

@@ -12,8 +12,8 @@ class NewsCubit extends Cubit<NewsStates> {
   NewsCubit() : super(IntialNewsStates());
   static NewsCubit get(context) => BlocProvider.of(context);
   int currentIndex = 0;
-  // ignore: non_constant_identifier_names
-  List<BottomNavigationBarItem> BtItems = [
+  
+  List<BottomNavigationBarItem> btItems = [
     BottomNavigationBarItem(
       label: 'business',
       icon: Icon(
