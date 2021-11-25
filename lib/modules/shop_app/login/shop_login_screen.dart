@@ -9,10 +9,11 @@ import 'package:udemy_flutter/modules/shop_app/login/cuibt/cubit.dart';
 import 'package:udemy_flutter/modules/shop_app/login/cuibt/states.dart';
 import 'package:udemy_flutter/modules/shop_app/register/shop_register_screen.dart';
 import 'package:udemy_flutter/shared/components/components.dart';
+import 'package:udemy_flutter/shared/components/constants.dart';
 import 'package:udemy_flutter/shared/network/local/cashe_helper.dart';
-import 'package:udemy_flutter/shared/styles/colors.dart';
 
 
+// ignore: must_be_immutable
 class ShopLoginScreen extends StatelessWidget {
 
   var emailController=TextEditingController();
@@ -40,7 +41,9 @@ class ShopLoginScreen extends StatelessWidget {
 
               CasheHelper.saveData(
                 key: 'token',
-                 value: state.loginModel.data.token).then((value) {
+                 value: state.loginModel.data.token)
+                 .then((value) {
+                   token=state.loginModel.data.token;
                    navigateAndFinish(context, ShopLayout(),);
                  });
 

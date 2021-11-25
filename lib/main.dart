@@ -9,15 +9,16 @@ import 'package:udemy_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:udemy_flutter/layout/shop_app/shop_layout.dart';
 import 'package:udemy_flutter/layout/todo_app/todo_layout.dart';
 import 'package:udemy_flutter/modules/basics/login/login_screen.dart';
+import 'package:udemy_flutter/modules/shop_app/login/shop_login_screen.dart';
 import 'package:udemy_flutter/modules/shop_app/on_bording/onbording_screen.dart';
 import 'package:udemy_flutter/modules/shop_app/register/shop_register_screen.dart';
 import 'package:udemy_flutter/shared/bloc_observer.dart';
+import 'package:udemy_flutter/shared/components/constants.dart';
 import 'package:udemy_flutter/shared/cubit/cubit.dart';
 import 'package:udemy_flutter/shared/cubit/states.dart';
 import 'package:udemy_flutter/shared/network/local/cashe_helper.dart';
 import 'package:udemy_flutter/shared/network/remote/dio_helper.dart';
 import 'package:udemy_flutter/shared/styles/themes.dart';
-import 'package:udemy_flutter/modules/shop_app/login/shop_login_screen.dart';
 
 
 void main() async {
@@ -28,6 +29,8 @@ void main() async {
   await CasheHelper.init();
   bool isDark = CasheHelper.getData(key: 'isDark');
 
+  
+
   Widget widget;
 
     // ignore: unused_local_variable
@@ -36,10 +39,12 @@ void main() async {
     // ignore: unused_local_variable
     String token = CasheHelper.getData(key: 'token');
 
+    print(token);
+
     if(onBoarding !=null)
     {
       if(token != null) widget=ShopLayout();
-      else widget=LoginScreen();
+      else widget=ShopLoginScreen();
     }else{
        widget=OnBoardingScreen();
     }
@@ -74,7 +79,7 @@ class MyApp extends StatelessWidget {
             ),
         ),
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData(),
+          create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavouritesData()..getUserData(),
             
         ),
       ],
@@ -86,7 +91,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode:
-                AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+                AppCubit.get(context).isDark ?  ThemeMode.light : ThemeMode.dark    ,
             home: startWidget,
             title: 'Enjoy Test',
           );

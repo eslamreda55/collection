@@ -14,11 +14,11 @@ class ShopLoginModel
   }
 
 
-  // LoginModel({
-  //   this.status,
-  //   this.message,
-  //   this.data
-  // });
+  ShopLoginModel({
+    this.status,
+    this.message,
+    this.data
+  });
 }
 
 class UserData
@@ -32,16 +32,16 @@ class UserData
   int credit;
   String token;
 
-  // UserData({
-  //   this.id,
-  //   this.name,
-  //   this.email,
-  //   this.phone,
-  //   this.image,
-  //   this.points,
-  //   this.credit,
-  //   this.token
-  // });
+  UserData({
+    this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.image,
+    this.points,
+    this.credit,
+    this.token
+  });
 
   UserData.fromJson(Map<String , dynamic> json)
   {

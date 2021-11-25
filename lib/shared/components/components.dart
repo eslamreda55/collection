@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:udemy_flutter/layout/news_app/cubit/cubit.dart';
 import 'package:udemy_flutter/layout/news_app/cubit/states.dart';
+import 'package:udemy_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:udemy_flutter/modules/news_app/webview_screen/webview_screen.dart';
 import 'package:udemy_flutter/shared/styles/colors.dart';
 
@@ -162,7 +163,7 @@ Widget buildTaskItem(Map model) => Padding(
 Widget myDivider() => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
-        color: Colors.grey,
+        color: Colors.grey[300],
         height: 1.0,
       ),
     );
@@ -251,6 +252,106 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
    (route) => false,
 
    );
+
+Widget buildListProduct(model ,context , {bool isOldPrice = true})=>
+  Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        height: 100.0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+                   children: 
+                   [
+                     Stack( 
+                       alignment: AlignmentDirectional.bottomStart,
+                       children: [
+                         Image(
+                           image: NetworkImage(model.image),
+                           height: 100.0,
+                           width: 100.0,
+                           ),
+                           if(model.discount !=0 && isOldPrice)
+                           Container(
+                             color:  Colors.red,
+                             padding: EdgeInsets.symmetric(
+                               horizontal: 5.0,
+                             ),
+                             child: Text(
+                               'DISCOUNT',
+                               style: TextStyle(
+                                 fontSize: 9.0,
+                                  color: Colors.white,
+                               ),
+                               ),
+                           ),
+                       ],
+                     ),
+                     SizedBox(
+                       width: 20.0,
+                     ),
+                       Expanded(
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: 
+                           [
+                             Text(
+                           model.name,
+                           maxLines: 2,
+                           overflow: TextOverflow.ellipsis,
+                           style: TextStyle(
+                             fontSize: 13.0
+                           ),
+                         ),
+                         Spacer(),
+                         Row(
+                           children: 
+                           [
+                             Text(
+                           model.price.toString(),
+                           maxLines: 2,
+                           overflow: TextOverflow.ellipsis,
+                           style: TextStyle(
+                             fontSize: 13.0,
+                             color: defaultColor,
+                           ),
+                         ),
+                         SizedBox(
+                           width: 7.0,
+                         ),
+                         if(model.discount != 0 && isOldPrice)
+                         Text(
+                           model.oldPrice.toString(),
+                           style: TextStyle(
+                             fontSize: 10.0,
+                             color: Colors.grey,
+                             decoration: TextDecoration.lineThrough,
+                           ),
+                         ),
+                         Spacer(),
+                         IconButton(
+                           icon:CircleAvatar(
+                             radius: 15.0,
+                             backgroundColor:ShopCubit.get(context).favorites[model.id] ? Colors.red : Colors.grey,
+                             child: Icon(
+                               Icons.favorite_border,
+                               color: Colors.white,
+                               ),
+                           ), 
+                           onPressed: ()
+                           {
+                             ShopCubit.get(context).changeFavourites(model.id);
+                           }
+                           ),
+                           ],
+                         ),
+                           ],
+                         ),
+                       ),
+                   ],
+                 ),
+      ),
+    );
+
 
 
 

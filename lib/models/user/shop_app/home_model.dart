@@ -70,140 +70,136 @@
 
 
 
+// To parse this JSON data, do
+//
+//     final homeClassModel = homeClassModelFromJson(jsonString);
+
+
+
 class HomeClassModel {
-  bool status;
-  Null message;
-  Data data;
+    HomeClassModel({
+        this.status,
+        this.message,
+        this.data,
+    });
 
-  HomeClassModel({this.status, this.message, this.data});
+    bool status;
+    dynamic message;
+    Data data;
 
-  HomeClassModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
+    factory HomeClassModel.fromJson(Map<String, dynamic> json) => HomeClassModel(
+        status: json["status"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data.toJson(),
+    };
 }
 
 class Data {
-  List<Banners> banners;
-  List<Products> products;
-  String ad;
+    Data({
+        this.banners,
+        this.products,
+        this.ad,
+    });
 
-  Data({this.banners, this.products, this.ad});
+    List<Banner> banners;
+    List<Product> products;
+    String ad;
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['banners'] != null) {
-      banners = new List<Banners>();
-      json['banners'].forEach((v) {
-        banners.add(new Banners.fromJson(v));
-      });
-    }
-    if (json['products'] != null) {
-      products = new List<Products>();
-      json['products'].forEach((v) {
-        products.add(new Products.fromJson(v));
-      });
-    }
-    ad = json['ad'];
-  }
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
+        products: List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+        ad: json["ad"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.banners != null) {
-      data['banners'] = this.banners.map((v) => v.toJson()).toList();
-    }
-    if (this.products != null) {
-      data['products'] = this.products.map((v) => v.toJson()).toList();
-    }
-    data['ad'] = this.ad;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
+        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        "ad": ad,
+    };
 }
 
-class Banners {
-  int id;
-  String image;
-  Null category;
-  Null product;
+class Banner {
+    Banner({
+        this.id,
+        this.image,
+        this.category,
+        this.product,
+    });
 
-  Banners({this.id, this.image, this.category, this.product});
+    int id;
+    String image;
+    dynamic category;
+    dynamic product;
 
-  Banners.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    image = json['image'];
-    category = json['category'];
-    product = json['product'];
-  }
+    factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+        id: json["id"],
+        image: json["image"],
+        category: json["category"],
+        product: json["product"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['category'] = this.category;
-    data['product'] = this.product;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "image": image,
+        "category": category,
+        "product": product,
+    };
 }
 
-class Products {
-  int id;
-  dynamic price;
-  dynamic oldPrice;
-  int discount;
-  String image;
-  String name;
-  String description;
-  List<String> images;
-  bool inFavorites;
-  bool inCart;
+class Product {
+    Product({
+        this.id,
+        this.price,
+        this.oldPrice,
+        this.discount,
+        this.image,
+        this.name,
+        this.description,
+        this.images,
+        this.inFavorites,
+        this.inCart,
+    });
 
-  Products(
-      {this.id,
-      this.price,
-      this.oldPrice,
-      this.discount,
-      this.image,
-      this.name,
-      this.description,
-      this.images,
-      this.inFavorites,
-      this.inCart});
+    int id;
+    int price;
+    int oldPrice;
+    int discount;
+    String image;
+    String name;
+    String description;
+    List<String> images;
+    bool inFavorites;
+    bool inCart;
 
-  Products.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    price = json['price'];
-    oldPrice = json['old_price'];
-    discount = json['discount'];
-    image = json['image'];
-    name = json['name'];
-    description = json['description'];
-    images = json['images'].cast<String>();
-    inFavorites = json['in_favorites'];
-    inCart = json['in_cart'];
-  }
+    factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json["id"],
+        price: json["price"],
+        oldPrice: json["old_price"],
+        discount: json["discount"],
+        image: json["image"],
+        name: json["name"],
+        description: json["description"],
+        images: List<String>.from(json["images"].map((x) => x)),
+        inFavorites: json["in_favorites"],
+        inCart: json["in_cart"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['old_price'] = this.oldPrice;
-    data['discount'] = this.discount;
-    data['image'] = this.image;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['images'] = this.images;
-    data['in_favorites'] = this.inFavorites;
-    data['in_cart'] = this.inCart;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "price": price,
+        "old_price": oldPrice,
+        "discount": discount,
+        "image": image,
+        "name": name,
+        "description": description,
+        "images": List<dynamic>.from(images.map((x) => x)),
+        "in_favorites": inFavorites,
+        "in_cart": inCart,
+    };
 }
