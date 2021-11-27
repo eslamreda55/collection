@@ -33,7 +33,9 @@ class ShopLayout extends StatelessWidget {
                 )
             ],
         ),
-        body:cubit.bottomScreens[cubit.currentIndex],
+        body:cubit.homeModel == null ? Center (child: CircularProgressIndicator()) : 
+        cubit.bottomScreens[cubit.currentIndex],
+        
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index)
           {
